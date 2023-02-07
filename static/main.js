@@ -4,14 +4,28 @@ const TaskApp = {
     data(){
         return{
             task: "",
-            tasks: [
-                {title: "Eat dinner", description: "Aunty cooked dinner for us!"},
-                {title: "Make App", description: "Learn about Vue."}
-            ],
-            message: 'My Simple To-Do'
+            tasks: [],
+            message: 'simple To-Do App'
         }
     },
-    
+
+    async created(){
+        await this.getTasks()
+    },
+
+    methods: {
+        async getTasks(){
+            const response = await fetch(window.location, {
+                method: "get",
+                headers: {
+                    "X-Requested-With" : "XMLHttpRequest"
+                }
+            }) 
+
+            this.tasks = await response.json()
+        }
+    },
+
     delimiters: ['{', '}']
 }
 

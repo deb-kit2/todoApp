@@ -31,13 +31,14 @@ def index() :
 @app.route("/create", methods = ["POST"])
 def createTask() :
     user_input = request.get_json()
+    del user_input["_id"]
 
     # validation, add checks
     if len(user_input["title"]) < 1 :  
         print("Could not add! Bad entry! :(")
     else :
         db.myTodos.insert_one(user_input)
-        
+
         # safe return
         t = MongoJSONEncoder().encode(user_input)
         t = json.loads(t)
@@ -45,7 +46,30 @@ def createTask() :
 
     return redirect(url_for("index"))
     
-    
+@app.route("/delete", methods = ["POST"])
+def deleteTask() :
+    user_input = request.get_json()
+    user_input["_id"] = ObjectId(user_input["_id"])
+
+    db.myTodos.delete_one(user_input)
+
+    return jsonify({"result": "Ok"}), 200
+
+@app.route("/edit", methods = ["POST"])
+def editTask() :
+    user_input = request.get_json()
+    user_input["_id"] = ObjectId(user_input["_id"])
+
+    db.myTodos.update_one(
+        {"_id" : user_input["_id"]}, 
+        {"$set" : {
+            "title" : '\u0336'.join(user_input["title"]) + '\u0336',
+            "description" : '\u0336'.join(user_input["description"]) + '\u0336',
+            "status" : "complete"
+        }}
+    )
+
+    return jsonify({"result": "Ok"}), 200
 
 if __name__ == "__main__" :
     app.run(debug = True)

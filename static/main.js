@@ -4,8 +4,10 @@ const TaskApp = {
     data(){
         return{
             task: {
+                "_id" : "",
                 "title" : "",
-                "description" : ""
+                "description" : "",
+                "status" : ""
             },
             tasks: [],
             message: 'simple To-Do App'
@@ -39,13 +41,36 @@ const TaskApp = {
 
         async createTask(){
             await this.getTasks()
-            await this.sendReqest(window.location + "create", "post", JSON.stringify(this.task))
+            await this.sendReqest(
+                window.location + "create", 
+                "post", 
+                JSON.stringify(this.task)
+            )
             await this.getTasks()
 
             this.task.title = ""
             this.task.description = ""
         },
         
+        async deleteTask(task){
+            await this.sendReqest(
+                window.location + "delete", 
+                "post",
+                JSON.stringify(task)
+            )
+
+            await this.getTasks()
+        },
+
+        async editTask(task){
+            await this.sendReqest(
+                window.location + "edit", 
+                "post",
+                JSON.stringify(task)
+            )
+
+            await this.getTasks()
+        }
     },
 
     delimiters: ['{', '}']

@@ -32,8 +32,12 @@
                 <div class="card-body justify-content-between px-4">
                     <h5 class = "card-title">{ task.title }</h4>
                     <p class = "card-text">{ task.description }</p>
-                    <a href="#" class="btn btn-warning btn-sm" style = "margin-right: 5px">edit</a>
-                    <a href="#" class="btn btn-danger btn-sm">delete</a>
+
+                    <!-- if complete, strikethrough -->
+                    <button v-if = "task.status === 'complete'" class="btn btn-outline-warning btn-sm disabled" style = "margin-right: 5px">mark complete</button>
+                    <button v-else class="btn btn-warning btn-sm" style = "margin-right: 5px" @click = "editTask(task)">mark complete</button>
+                    
+                    <button class="btn btn-danger btn-sm" @click = "deleteTask(task)">delete</button>
                 </div>
             </div>
         </div>

@@ -55,7 +55,7 @@ const TaskApp = {
         async deleteTask(task){
             await this.sendReqest(
                 window.location + "delete", 
-                "post",
+                "delete",
                 JSON.stringify(task)
             )
 
@@ -65,7 +65,7 @@ const TaskApp = {
         async editTask(task){
             await this.sendReqest(
                 window.location + "edit", 
-                "post",
+                "put",
                 JSON.stringify(task)
             )
 

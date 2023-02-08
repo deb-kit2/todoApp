@@ -46,7 +46,7 @@ def createTask() :
 
     return redirect(url_for("index"))
     
-@app.route("/delete", methods = ["POST"])
+@app.route("/delete", methods = ["DELETE"])
 def deleteTask() :
     user_input = request.get_json()
     user_input["_id"] = ObjectId(user_input["_id"])
@@ -55,7 +55,7 @@ def deleteTask() :
 
     return jsonify({"result": "Ok"}), 200
 
-@app.route("/edit", methods = ["POST"])
+@app.route("/edit", methods = ["PUT"])
 def editTask() :
     user_input = request.get_json()
     user_input["_id"] = ObjectId(user_input["_id"])
